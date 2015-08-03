@@ -3,6 +3,7 @@
         <wb-resource deploy-path="/" source-path="/ejbModule" tag="defaultRootSource"/>
         <wb-resource deploy-path="/" source-path="/src/main/java"/>
         <wb-resource deploy-path="/" source-path="/src/main/resources"/>
+        <wb-resource deploy-path="/" source-path="/src/test/java"/>
         <property name="java-output-path" value="/tasteFinderBackend/bin"/>
     </wb-module>
 </project-modules>

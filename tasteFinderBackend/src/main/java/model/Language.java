@@ -10,8 +10,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
-import com.sun.istack.Nullable;
-
 @Entity
 public class Language implements Serializable {
 
@@ -30,19 +28,16 @@ public class Language implements Serializable {
 	
 	//bi-directional many-to-one association to Drink
 	@ManyToOne
-	@Nullable
 	@JoinColumn(name="id_drinktype_fk")
 	private Drinktype drinktype;
 	
 	//bi-directional many-to-one association to Drink
 	@ManyToOne
-	@Nullable
 	@JoinColumn(name="id_drink_fk")
 	private Drink drink;
 	
 	//bi-directional many-to-one association to Drink
 	@ManyToOne
-	@Nullable
 	@JoinColumn(name="id_country_fk")
 	private Country country;
 

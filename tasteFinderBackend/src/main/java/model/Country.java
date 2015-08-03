@@ -14,7 +14,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
-import com.sun.istack.Nullable;
 
 @Entity
 @NamedQueries(
@@ -34,11 +33,10 @@ public class Country implements Serializable{
 
 	//bi-directional many-to-one association to Languages
 	@OneToMany(mappedBy="country", cascade = CascadeType.ALL)
-	@Nullable
 	private List<Language> languages;
 
 	//bi-directional many-to-one association to Drink
-	@OneToMany(mappedBy="country")
+	@OneToMany(mappedBy="country", cascade = CascadeType.ALL)
 	private List<Drink> drinks;
 	
 	public Integer getId() {

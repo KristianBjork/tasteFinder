@@ -1,13 +1,18 @@
 package model;
 
 import java.io.Serializable;
-
-import javax.persistence.*;
-
-import com.sun.istack.Nullable;
-
 import java.util.LinkedList;
 import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 
 
 /**
@@ -31,7 +36,6 @@ public class Drinktype implements Serializable {
 
 	//bi-directional many-to-one association to Languages
 	@OneToMany(mappedBy="drinktype", cascade = CascadeType.ALL)
-	@Nullable
 	private List<Language> languages;
 
 	//bi-directional many-to-one association to Drink
