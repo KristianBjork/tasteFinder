@@ -4,16 +4,21 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import org.compass.annotations.Searchable;
+import org.compass.annotations.SearchableId;
+
 
 /**
  * The persistent class for the taste database table.
  * 
  */
+@Searchable(root = false)
 @Entity
 @NamedQuery(name="Taste.findAll", query="SELECT t FROM Taste t")
 public class Taste implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@SearchableId
 	@Id
 	@SequenceGenerator(name = "taste", sequenceName = "taste_id_seq", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "taste")

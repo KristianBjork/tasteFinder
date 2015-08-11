@@ -10,20 +10,31 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
+import org.compass.annotations.Cascade;
+import org.compass.annotations.Searchable;
+import org.compass.annotations.SearchableId;
+import org.compass.annotations.SearchableProperty;
+import org.compass.annotations.SearchableReference;
+
+@Searchable(root = false)
 @Entity
 public class Language implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
+	@SearchableId
 	@Id
 	@SequenceGenerator(name = "language", sequenceName = "language_id_seq", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "language")
 	private Integer id;
 	
+	@SearchableProperty
 	private String languagecode;
 	
+	@SearchableProperty
 	private String type;
 	
+	@SearchableProperty
 	private String text;
 	
 	//bi-directional many-to-one association to Drink

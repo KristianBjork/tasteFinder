@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,11 +15,16 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
+import org.compass.annotations.Searchable;
+import org.compass.annotations.SearchableComponent;
+import org.compass.annotations.SearchableId;
+
 
 /**
  * The persistent class for the drinktype database table.
  * 
  */
+@Searchable(root = false)
 @Entity
 @NamedQueries(
 	value = {
@@ -29,13 +35,15 @@ import javax.persistence.SequenceGenerator;
 public class Drinktype implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@SearchableId
 	@Id
 	@SequenceGenerator(name = "drinkType", sequenceName = "drinkType_id_seq", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "drinkType")
 	private Integer id;
 
 	//bi-directional many-to-one association to Languages
-	@OneToMany(mappedBy="drinktype", cascade = CascadeType.ALL)
+	@SearchableComponent
+	@OneToMany(mappedBy="drinktype", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Language> languages;
 
 	//bi-directional many-to-one association to Drink

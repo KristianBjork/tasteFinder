@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,21 +18,25 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.compass.annotations.Searchable;
+import org.compass.annotations.SearchableComponent;
+import org.compass.annotations.SearchableId;
+import org.compass.annotations.SearchableProperty;
+import org.compass.annotations.SearchableReference;
+
 /**
  * The persistent class for the drinks database table.
  * 
  */
+@Searchable
 @Entity
 @Table(name = "drinks")
-@NamedQueries(
-	value = {
-			@NamedQuery(name = "Drink.findAll", query = "SELECT d FROM Drink d"),
-			@NamedQuery(name = "Drink.findByName", query = "SELECT d FROM Drink d WHERE d.drinkname=:name") 
-	}
-)
+@NamedQueries(value = { @NamedQuery(name = "Drink.findAll", query = "SELECT d FROM Drink d"),
+		@NamedQuery(name = "Drink.findByName", query = "SELECT d FROM Drink d WHERE d.drinkname=:name") })
 public class Drink implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@SearchableId
 	@Id
 	@SequenceGenerator(name = "drink", sequenceName = "drink_id_seq", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "drink")
@@ -39,18 +44,23 @@ public class Drink implements Serializable {
 
 	private Double alcohol;
 
+	@SearchableProperty
 	private String color;
 
+	@SearchableProperty(name = "name")
 	private String drinkname;
 
+	@SearchableProperty
 	private String producer;
-	
+
 	// bi-directional many-to-one association to Drinktype
+	@SearchableComponent
 	@ManyToOne
 	@JoinColumn(name = "id_drinktype_fk")
 	private Drinktype drinktype;
-	
-	// bi-directional many-to-one association to Drinktype
+
+	// bi-directional many-to-one association to Country
+	@SearchableComponent
 	@ManyToOne
 	@JoinColumn(name = "id_country_fk")
 	private Country country;
@@ -62,9 +72,10 @@ public class Drink implements Serializable {
 	// bi-directional many-to-one association to Taste
 	@OneToMany(mappedBy = "drink")
 	private List<Taste> tastes;
-	
-	//bi-directional many-to-one association to Languages
-	@OneToMany(mappedBy="drink", cascade = CascadeType.ALL)
+
+	// bi-directional many-to-one association to Languages
+	@SearchableComponent
+	@OneToMany(mappedBy = "drink", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Language> languages;
 
 	public Drink() {
@@ -117,7 +128,7 @@ public class Drink implements Serializable {
 	public void setDrinktype(Drinktype drinktype) {
 		this.drinktype = drinktype;
 	}
-	
+
 	public Country getCountry() {
 		return this.country;
 	}
@@ -169,9 +180,9 @@ public class Drink implements Serializable {
 
 		return taste;
 	}
-	
+
 	public List<Language> getLanguages() {
-		if(this.languages == null){
+		if (this.languages == null) {
 			this.languages = new LinkedList<Language>();
 		}
 		return this.languages;
@@ -183,10 +194,9 @@ public class Drink implements Serializable {
 
 	public Language addLanguages(Language language) {
 		List<Language> languages = getLanguages();
-		for(Language lang :languages){
-			if(lang.getType().equals(language.getType())
-			&& lang.getLanguagecode().equals(language.getLanguagecode())
-			&& lang.getText().equals(language.getText()))
+		for (Language lang : languages) {
+			if (lang.getType().equals(language.getType()) && lang.getLanguagecode().equals(language.getLanguagecode())
+					&& lang.getText().equals(language.getText()))
 				return language;
 		}
 		languages.add(language);

@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,7 +15,11 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
+import org.compass.annotations.Searchable;
+import org.compass.annotations.SearchableComponent;
+import org.compass.annotations.SearchableId;
 
+@Searchable(root = false)
 @Entity
 @NamedQueries(
 		value = {
@@ -26,13 +31,15 @@ public class Country implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
+	@SearchableId
 	@Id
 	@SequenceGenerator(name = "country", sequenceName = "country_id_seq", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "country")
 	private Integer id;
 
 	//bi-directional many-to-one association to Languages
-	@OneToMany(mappedBy="country", cascade = CascadeType.ALL)
+	@SearchableComponent
+	@OneToMany(mappedBy="country", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Language> languages;
 
 	//bi-directional many-to-one association to Drink

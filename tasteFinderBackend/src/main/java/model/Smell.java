@@ -4,16 +4,21 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import org.compass.annotations.Searchable;
+import org.compass.annotations.SearchableId;
+
 
 /**
  * The persistent class for the smell database table.
  * 
  */
+@Searchable
 @Entity
 @NamedQuery(name="Smell.findAll", query="SELECT s FROM Smell s")
 public class Smell implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@SearchableId
 	@Id
 	@SequenceGenerator(name = "smell", sequenceName = "smell_id_seq", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "smell")
